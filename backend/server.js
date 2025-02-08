@@ -3,6 +3,9 @@ const cors = require('cors');
 const mysql = require('mysql2');
 const session = require('express-session');
 const bcrypt = require('bcrypt'); 
+const multer = require("multer");
+const path = require("path");
+
 const MySQLStore = require('express-mysql-session')(session); 
 
 const app = express();
@@ -257,54 +260,44 @@ app.post('/subjects/:subjectName/topics/delete', checkAuth, (req, res) => {
   });
 });
 
-app.post('/topics/:topicName/solutions', (req, res) => {
-  const { topicName } = req.params;
-  const { content } = req.body;
-  const username = req.session.username; 
-  if (!content || !username) {
-    return res.status(400).send('Content and username are required');
-  }
-  const insertSolutionSql = 'INSERT INTO solutions (content, username, topic_name) VALUES (?, ?, ?)';
-  db.query(insertSolutionSql, [content, username, topicName], (err, result) => {
-    if (err) {
-      console.error('Error inserting solution:', err);
-      return res.status(500).send('Error adding solution');
-    }
-    res.send('Solution added successfully');
-  });
+const storage = multer.diskStorage({
+  destination: "./uploads/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
 });
-
-app.get('/topics/:topicName/solutions', (req, res) => {
+const upload = multer({ storage });
+app.use("/uploads", express.static("uploads"));
+app.get("/topics/:topicName/solutions", (req, res) => {
   const topicName = req.params.topicName;
-
-  const sql = 'SELECT * FROM solutions WHERE topic_name = ?';
+  const sql = "SELECT * FROM solutions WHERE topic_name = ?";
   db.query(sql, [topicName], (err, results) => {
     if (err) {
-      console.error('Error fetching solutions:', err);
-      return res.status(500).send('Error fetching solutions');
+      console.error("Error fetching solutions:", err);
+      return res.status(500).send("Error fetching solutions");
     }
     res.json(results);
   });
 });
-app.post('/topics/:topicName/solutions', (req, res) => {
-  const { content, username } = req.body;
-  const topicName = req.params.topicName;
+app.post("/topics/:topicName/solutions", upload.single("pdf"), (req, res) => {
+  const { topicName } = req.params;
+  const username = req.session.username;
 
-  if (!content || !username) {
-    return res.status(400).send('Content and username are required');
+  if (!req.file || !username) {
+    return res.status(400).send("PDF file and username are required");
   }
 
-  const sql = 'INSERT INTO solutions (content, username, topic_name, upvotes) VALUES (?, ?, ?, 0)';
-  db.query(sql, [content, username, topicName], (err, result) => {
+  const pdfPath = req.file.filename;
+  const sql = "INSERT INTO solutions (pdf_path, username, topic_name) VALUES (?, ?, ?)";
+  
+  db.query(sql, [pdfPath, username, topicName], (err, result) => {
     if (err) {
-      console.error('Error adding solution:', err);
-      return res.status(500).send('Error adding solution');
+      console.error("Error adding solution:", err);
+      return res.status(500).send("Error adding solution");
     }
-    res.send('Solution added successfully');
+    res.send("Solution added successfully");
   });
 });
-
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
