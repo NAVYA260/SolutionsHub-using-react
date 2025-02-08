@@ -1,0 +1,146 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: rgb(45, 136, 164);
+    color: #fff;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-options {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-options a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px; 
+    font-size: 18px;
+}
+
+.topic-heading {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 90px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: rgb(45, 136, 164); 
+}
+
+.answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    padding: 20px;
+    max-width: 900px; 
+    margin: 0 auto; 
+}
+
+.answers-container > div {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.answers-container > div:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+}
+
+.answers-container p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 5px 0;
+    color: #333; 
+}
+
+.answers-container p:nth-child(2) {
+    font-weight: bold;
+    color: rgb(45, 136, 164); 
+}
+
+button {
+    background-color: rgb(45, 136, 164); 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #357a8a; 
+}
+
+button:focus {
+    outline: none; 
+}
+
+
+.question-form {
+    padding: 20px;
+    text-align: center; 
+}
+
+.question-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    width: 1500px;
+}
+
+.question-card h2 {
+    margin-top: 0;
+}
+
+.question-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.question-card input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.question-card input[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(45, 136, 164);
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.question-card input[type="submit"]:hover {
+    background-color: #357a8a;
+}
+
+.question-card p {
+    color: green;
+    font-weight: bold;
+}

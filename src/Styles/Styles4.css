@@ -1,0 +1,155 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: rgb(216, 206, 206);
+  overflow-x: hidden; 
+  width: 100vw; 
+}
+.navbar {
+  width: 100%;
+  background-color: rgb(45, 136, 164);
+  color: #fff;
+  padding: 15px 20px; 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  box-shadow: 0 2px;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 24px;
+}
+
+.navbar-options {
+  display: flex;
+  gap: 20px; 
+}
+
+.navbar-options a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 5px 10px; 
+}
+
+.navbar-options a:hover {
+  background-color: rgba(255, 255, 255, 0.2); 
+  border-radius: 5px; 
+}
+
+.questions {
+  flex: 1;
+  padding: 10px;
+  margin-top: 90px; 
+  max-width: 100%; 
+  width: 100%; 
+  overflow-x: hidden; 
+}
+
+.question-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  max-width: 100%; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+.question-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.question-card ul li a {
+  display: block;
+  background-color: rgb(144, 156, 159);
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.question-card ul li a:hover {
+  background-color: #555;
+}
+
+.question-form {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.question-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; 
+}
+
+.question-form input[type="submit"] {
+  background-color: rgb(45, 136, 164);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  width: 100%; 
+}
+
+button.subject-button {
+  width: 100%; 
+  background-color: #a6a2a2; 
+  color: black; 
+  padding: 10px; 
+  margin: 10px 0; 
+  border: none;
+  text-align: left;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button.subject-button:hover {
+  background-color: #b0b0b0; 
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; 
+    align-items: flex-start;
+  }
+
+  .navbar-options {
+    flex-direction: column; 
+    gap: 10px; 
+  }
+
+  .questions {
+    padding: 20px; 
+    width: 100%; 
+    margin-top: 120px; 
+  }
+
+  button.subject-button {
+    font-size: 1rem; 
+    padding: 8px; 
+  }
+}
