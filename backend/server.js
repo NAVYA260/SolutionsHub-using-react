@@ -2,22 +2,20 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
 const session = require('express-session');
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
 const multer = require("multer");
 const path = require("path");
-
-const MySQLStore = require('express-mysql-session')(session); 
-
+const MySQLStore = require('express-mysql-session')(session);
 const app = express();
 const port = 5000;
 
 app.use(cors({
-  origin: 'http://localhost:3000', 
-  credentials: true 
+  origin: 'http://localhost:3000',
+  credentials: true
 }));
 app.use(express.json());
 app.use((req, res, next) => {
-  console.log('Session:', req.session); 
+  console.log('Session:', req.session);
   next();
 });
 const db = mysql.createPool({
@@ -25,7 +23,7 @@ const db = mysql.createPool({
   user: 'root',
   password: '1234',
   database: 'solutionhub',
-  connectionLimit: 10 
+  connectionLimit: 10
 });
 db.getConnection((err, connection) => {
   if (err) {
@@ -33,19 +31,17 @@ db.getConnection((err, connection) => {
     return;
   }
   console.log('Connected to the database');
-  connection.release(); 
+  connection.release();
 });
-
 const sessionStore = new MySQLStore({}, db);
-
 app.use(session({
-  secret: '12345', 
+  secret: '12345',
   resave: false,
   saveUninitialized: false,
   store: sessionStore,
   cookie: {
-    secure: false, 
-    maxAge: 1000 * 60 * 60 
+    secure: false,
+    maxAge: 1000 * 60 * 60
   }
 }));
 
@@ -113,8 +109,8 @@ app.post('/login', (req, res) => {
         }
 
         if (isMatch) {
-          req.session.username = username; 
-          console.log('Login successful, session data:', req.session); 
+          req.session.username = username;
+          console.log('Login successful, session data:', req.session);
           res.send('Login successful');
         } else {
           res.status(401).send('Invalid username or password');
@@ -137,8 +133,7 @@ app.get('/subjects', (req, res) => {
 });
 app.post('/subjects', checkAuth, (req, res) => {
   const { subject_name } = req.body;
-  const username = req.session.username; 
-
+  const username = req.session.username;
   if (!subject_name || !username) {
     return res.status(400).send('Subject name and username are required');
   }
@@ -167,8 +162,7 @@ app.post('/subjects', checkAuth, (req, res) => {
 
 app.post('/subjects/delete', checkAuth, (req, res) => {
   const { subject_name } = req.body;
-  const username = req.session.username; 
-
+  const username = req.session.username;
   if (!subject_name || !username) {
     return res.status(400).send('Subject name and username are required');
   }
@@ -204,7 +198,7 @@ app.get('/subjects/:subjectName/topics', (req, res) => {
       console.error('Error fetching topics:', err);
       return res.status(500).send('Error fetching topics');
     }
-    res.json(results.map(row => row.topic_name)); 
+    res.json(results.map(row => row.topic_name));
   });
 });
 app.post('/subjects/:subjectName/topics', checkAuth, (req, res) => {
@@ -228,8 +222,7 @@ app.post('/subjects/:subjectName/topics', checkAuth, (req, res) => {
 app.post('/subjects/:subjectName/topics/delete', checkAuth, (req, res) => {
   const { topic_name } = req.body;
   const subjectName = req.params.subjectName;
-  const username = req.session.username; 
-
+  const username = req.session.username;
   if (!topic_name || !subjectName || !username) {
     return res.status(400).send('Topic name, subject name, and username are required');
   }
@@ -298,6 +291,45 @@ app.post("/topics/:topicName/solutions", upload.single("pdf"), (req, res) => {
     res.send("Solution added successfully");
   });
 });
+
+const fs = require('fs');
+
+app.delete('/topics/:topicName/solutions/:solutionId', checkAuth, (req, res) => {
+  const { topicName, solutionId } = req.params;
+  const username = req.session.username;
+  const getSql = 'SELECT * FROM solutions WHERE id = ?';
+  db.query(getSql, [solutionId], (err, results) => {
+    if (err) {
+      console.error('Error retrieving solution:', err);
+      return res.status(500).send('Server error');
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send('Solution not found');
+    }
+
+    const solution = results[0];
+    if (solution.username !== username) {
+      return res.status(403).send('Only the user who uploaded this solution can delete it');
+    }
+
+    const deleteSql = 'DELETE FROM solutions WHERE id = ?';
+    db.query(deleteSql, [solutionId], (err, result) => {
+      if (err) {
+        console.error('Error deleting solution:', err);
+        return res.status(500).send('Error deleting solution');
+      }
+      const filePath = path.join(__dirname, 'uploads', solution.pdf_path);
+      fs.unlink(filePath, (fsErr) => {
+        if (fsErr) {
+          console.error('File deletion error:', fsErr);
+        }
+        return res.send('Solution deleted successfully');
+      });
+    });
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
