@@ -59,6 +59,9 @@ app.post('/register', (req, res) => {
   if (!username || !password || !email) {
     return res.status(400).send('All fields are required');
   }
+  if (!email.endsWith('@svecw.edu.in')) {
+    return res.status(400).send('Only college email IDs are allowed');
+  }
 
   const checkUserSql = 'SELECT * FROM users WHERE username = ? OR email = ?';
   db.query(checkUserSql, [username, email], (err, results) => {
@@ -282,7 +285,7 @@ app.post("/topics/:topicName/solutions", upload.single("pdf"), (req, res) => {
 
   const pdfPath = req.file.filename;
   const sql = "INSERT INTO solutions (pdf_path, username, topic_name) VALUES (?, ?, ?)";
-  
+
   db.query(sql, [pdfPath, username, topicName], (err, result) => {
     if (err) {
       console.error("Error adding solution:", err);
