@@ -332,6 +332,59 @@ app.delete('/topics/:topicName/solutions/:solutionId', checkAuth, (req, res) => 
     });
   });
 });
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+
+app.post('/request-reset', (req, res) => {
+  const { email } = req.body;
+
+  const token = crypto.randomBytes(32).toString('hex');
+  const expiry = new Date(Date.now() + 15 * 60 * 1000); // 15 mins
+
+  const sql = 'UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE email = ?';
+  db.query(sql, [token, expiry, email], (err, result) => {
+    if (err) return res.status(500).send('Server error');
+    if (result.affectedRows === 0) return res.status(404).send('Email not found');
+
+    const resetLink = `http://localhost:3000/reset-password/${token}`;
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'navyajangala2004@gmail.com',
+        pass: 'lqhymwdqayqylnbz'
+      }
+    });
+
+    const mailOptions = {
+      from: 'your_email@gmail.com',
+      to: email,
+      subject: 'Reset your password',
+      html: `<p>Click <a href="${resetLink}">here</a> to reset your password. Link expires in 15 minutes.</p>`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) return res.status(500).send('Email failed');
+      res.send('Reset link sent to your email');
+    });
+  });
+});
+app.post('/reset-password', (req, res) => {
+  const { token, newPassword } = req.body;
+
+  const sql = 'SELECT * FROM users WHERE reset_token = ? AND reset_token_expiry > NOW()';
+  db.query(sql, [token], (err, results) => {
+    if (err || results.length === 0) return res.status(400).send('Invalid or expired token');
+
+    const hashed = bcrypt.hashSync(newPassword, 10);
+    const updateSql = 'UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE reset_token = ?';
+
+    db.query(updateSql, [hashed, token], (err, result) => {
+      if (err) return res.status(500).send('Password update failed');
+      res.send('Password successfully reset');
+    });
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
