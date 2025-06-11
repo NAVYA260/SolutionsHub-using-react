@@ -1,0 +1,77 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: rgb(216, 206, 206);
+}
+
+form {
+    width: 300px;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    padding: 0 10px; 
+    width: 100%;
+    margin-bottom: 10px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    text-align: left; 
+}
+input[type="email"] {
+    padding: 0 50px; 
+    width: 100%;
+    margin-bottom: 10px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    text-align: center; 
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.create-account button {
+    background-color: #cce5ff;
+    color: #007bff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.create-account button:hover {
+    background-color: #b3d7ff;
+}
+
+.btn-continue {
+    background-color: rgb(45, 136, 164);
+    color: #fff;
+    padding: 10px 115px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    margin-top: 20px;
+}

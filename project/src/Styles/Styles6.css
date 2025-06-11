@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: rgb(45, 136, 164);
+    color: #fff;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-options {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-options a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px; 
+    font-size: 18px;
+}
+
+.topic-heading {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 90px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: rgb(45, 136, 164); 
+}
+
+.answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    padding: 20px;
+    max-width: 800px; 
+    margin: 0 auto; 
+}
+
+.answers-container > div {
+    background-color: #fdfdfd;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.answers-container > div:hover {
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15); 
+}
+
+.answers-container p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    color: #333; 
+    flex: 1;
+}
+
+.answers-container p:nth-child(1) {
+    font-weight: bold;
+    color: rgb(45, 136, 164); 
+}
+
+.answers-container a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+.answers-container a:hover {
+    text-decoration: underline;
+}
+
+.delete-button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c92a37;
+}
+
+button:focus {
+    outline: none; 
+}
+
+.question-form {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.question-card {
+    background-color: #f9f9f9;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+.question-card h2 {
+    margin-top: 0;
+    color: rgb(45, 136, 164);
+}
+
+.question-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.question-card input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.question-card input[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(45, 136, 164);
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.question-card input[type="submit"]:hover {
+    background-color: #357a8a;
+}
+
+.question-card p {
+    color: green;
+    font-weight: bold;
+}
