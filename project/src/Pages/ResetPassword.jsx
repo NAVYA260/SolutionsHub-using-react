@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
   const { token } = useParams();
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleReset = (e) => {
     e.preventDefault();
@@ -13,9 +14,16 @@ const ResetPassword = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, newPassword })
     })
-    .then(res => res.text())
-    .then(data => setMessage(data))
-    .catch(err => setMessage('Something went wrong'));
+      .then(res => res.text())
+      .then(data => {
+        setMessage(data);
+        if (data.includes('success')) {
+          setTimeout(() => {
+            navigate('/login');
+          }, 1500);
+        }
+      })
+      .catch(err => setMessage('Something went wrong'));
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import '../Styles/Styles2.css';
 
 const Register = () => {
@@ -66,7 +67,7 @@ const Register = () => {
                     />
                 </div>
                 <div className="login-link">
-                    <p>Already have an account? <a href="/login">Login</a></p>
+                    <p>Already have an account? <Link to="/login">Login</Link></p>
                 </div>
                 <button type="submit">Register</button>
                 <p style={{ color: message.type === 'success' ? 'green' : 'red' }}>

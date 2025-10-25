@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Styles/Styles3.css';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -54,10 +55,10 @@ const Login = () => {
                 </div>
                 <button type="submit">Login</button>
                 <div className="forgot-password">
-                    <a href="/ForgotPassword">Forgot password?</a>
+                    <Link to="/ForgotPassword">Forgot password?</Link>
                 </div>
                 <div className="create-account">
-                    <a href='Register' className="btn-continue">Create an account</a>
+                    <Link to='Register' className="btn-continue">Create an account</Link>
                 </div>
                 <p style={{ color: message.type === 'success' ? 'green' : 'red' }}>
                     {message.text}

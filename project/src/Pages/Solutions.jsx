@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../Styles/Styles6.css";
+import { Link } from "react-router-dom";
 
 const Solutions = () => {
   const { topicName } = useParams();
@@ -87,8 +88,8 @@ const Solutions = () => {
       <div className="navbar">
         <div className="navbar-brand">SolutionsHub</div>
         <div className="navbar-options">
-          <a href="/Subjects">Subjects</a>
-          <a href="/Login">Log out</a>
+          <Link to="/Subjects">Subjects</Link>
+          <Link to="/Login">Log out</Link>
         </div>
       </div>
 

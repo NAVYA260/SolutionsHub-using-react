@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import '../Styles/Styles4.css'; 
+import { Link } from 'react-router-dom';
 
 const Topics = () => {
   const { subjectName } = useParams(); 
@@ -97,8 +98,8 @@ const Topics = () => {
       <div className="navbar">
         <div className="navbar-brand">SolutionsHub</div>
         <div className="navbar-options">
-          <a href="/Subjects">Subjects</a>
-          <a href="/Login">Log out</a>
+          <Link to="/Subjects">Subjects</Link>
+          <Link to="/Login">Log out</Link>
         </div>
       </div>
 
